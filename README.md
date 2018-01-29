@@ -2,22 +2,26 @@
 
 ### Chapter 1
 
-#### Section 1
+特殊方法名能让你自己的对象实现和支持以下的语言构架， 并与之交互：
 
-- namedtuple用以构建只有少数属性但是没有方法的对象
+- 迭代
+- 集合类
+- 属性访问
+- 运算符重载
+- 函数和方法的调用
+- 对象的创建和销毁
+- 字符串表示形式和格式化
+- 管理上下文（ 即 with 块）
 
-- `random.choice(seq)`
+特殊方法的存在是为了被 Python 解释器调用的， 你自己并不需要调用它们。通过内置的函数（ 例如 len、 iter、 str， 等等） 来使用特殊方法是最好的选择。 这些内置函数不仅会调用特殊方法， 通常还提供额外的好处， 而且对于内置的类来说， 它们的速度更快。
 
-  Return a random element from the non-empty sequence *seq*. If *seq* is empty, raises [`IndexError`](https://docs.python.org/3/library/exceptions.html#IndexError).
+通过实现特殊方法， 自定义数据类型可以表现得跟内置类型一样， 从而让我们写出更具表达力的代码——或者说， 更具 Python 风格的代码。
 
-- `reversed(seq)`
+len 之所以不是一个普通方法
 
-  Return a reverse [iterator](https://docs.python.org/3/glossary.html#term-iterator). *seq* must be an object which has a [`__reversed__()`](https://docs.python.org/3/reference/datamodel.html#object.__reversed__) method or supports the sequence protocol (the [`__len__()`](https://docs.python.org/3/reference/datamodel.html#object.__len__) method and the [`__getitem__()`](https://docs.python.org/3/reference/datamodel.html#object.__getitem__) method with integer arguments starting at `0`).
+1. 是为了让 Python 自带的数据结构可以走后门，速度更快。
+2. 可以把 len 用于自定义数据类型。
 
-通过数据模型和一些合成来实现这些功能。 通过实现 `__len__`和 `__getitem__` 这两个特殊方法， FrenchDeck 就跟一个 Python 自有的序列数据类型一样， 可以体现出 Python 的核心语言特性（ 例如迭代和切片） 。 同时这个类还可以用于标准库中诸如random.choice、 reversed 和 sorted 这些函数。 另外， 对合成的运用使得 `__len__` 和` __getitem__` 的具体实现可以代理给 self._cards这个 Python 列表（ 即 list 对象） 。
-
-#### Section 2
-
- 特殊方法的存在是为了被 Python 解释器调用的， 你自己并不需要调用它们。 也就是说没有 `my_object.__len__()` 这种写法，而应该使用 len(my_object)。 在执行 len(my_object) 的时候， 如果my_object 是一个自定义类的对象， 那么 Python 会自己去调用其中由你实现的` __len__` 方法。
+bool(x) 的背后是调用x.__bool__() 的结果； 如果不存在 __bool__ 方法， 那么 bool(x) 会尝试调用 x.__len__()。 若返回 0， 则 bool 会返回 False； 否则返回True。
 
 
