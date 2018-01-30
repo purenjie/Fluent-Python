@@ -1,0 +1,12 @@
+fruits = ['grape', 'raspberry', 'apple', 'banana']
+print(sorted(fruits))
+print(fruits)
+print(sorted(fruits, reverse=True))
+print()
+print(sorted(fruits, key=len))
+print(sorted(fruits, key=len, reverse=True))
+print(sorted(fruits, reverse=True, key=len))
+print()
+print(fruits)
+fruits.sort()
+print(fruits)
